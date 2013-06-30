@@ -1,3 +1,11 @@
+# Editor backup files
+*~
+*.bak
+
+# MSOffice temporary files
+~*
+
+# intermediates
 .DS_Store
 .svn
 demo
@@ -6,4 +14,4 @@ demo-skyline
 *.sublime-project
 *.sublime-workspace
 *.dev.*
-_wip
+_wip 
