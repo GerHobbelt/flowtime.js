@@ -235,8 +235,8 @@ Default `false`. Just a proxy for `Flowtime.sectionsSlideToTop` but with reverse
 Flowtime.useOverviewVariant(Boolean use);
 ```
 
-Default `false`. Uses a built in overview variant which does not show all the pages in a single view but center the current page in the available space scroualtirlling the view when navigating with the arrows.
-In Webkit browsers the default overview mode can cause rendering problems if the pages are too much; using the variant you can minimize the problem.
+Default `false`. Uses a built in overview variant which does not show all the pages in a single view but centers the current page in the available space while centering the view when navigating with the arrows.
+In Webkit browsers the default overview mode can cause rendering problems when the pages are too many; using the `use = true` overview variant you can minimize the problem.
 
 ```javascript
 Flowtime.defaultParallaxValues(Number x, [Number y]);
