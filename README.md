@@ -1,6 +1,6 @@
 ![Flowtime.js](https://github.com/marcolago/flowtime.js/raw/master/assets/img/logo-black.png "Flowtime.js Logo")
 
-### Flowtime.js is a framework for easily build HTML presentations or websites.  
+### Flowtime.js is a framework for easily build HTML presentations or websites.
 
 You can take a look at the [sample presentation](http://flowtime-js.marcolago.com) to quick learn about the possibilities:
 
@@ -13,18 +13,18 @@ You can take a look at the [sample presentation](http://flowtime-js.marcolago.co
 
 - **May 12 2013**
   - Added the autoplay configuration functions and `start()`, `pause()` and `stop()` methods. ([#18](https://github.com/marcolago/flowtime.js/issues/18))
-  - Now the presentations is loopable both for page and section navigation. ([#18](https://github.com/marcolago/flowtime.js/issues/18)) 
+  - Now the presentations is loopable both for page and section navigation. ([#18](https://github.com/marcolago/flowtime.js/issues/18))
 
 ## Main Features
 
-**Full Page Fluid Layout Boilerplate**.  
-Flowtime.js is designed to perfectly fit your viewport and is based on a solid `display: inline-block;` foundation.  
+**Full Page Fluid Layout Boilerplate**.
+Flowtime.js is designed to perfectly fit your viewport and is based on a solid `display: inline-block;` foundation.
 This frameworks doesn't style your presentations or sites for you but it takes care of all the annoying things like navigation and deep-linking, so you are free to style every single element of your design as you like.
 But for the ones who need a ready-to-use tool it comes with a default theme that you can edit or you can add new themes just by linking your css files.
 
-**Multiple Controls Navigation**.  
-You can navigate through pages via links, keyboard or deep-linking.  
-Links are managed using the href value targeting a formatted hash destination; see the demos source code for more examples.  
+**Multiple Controls Navigation**.
+You can navigate through pages via links, keyboard or deep-linking.
+Links are managed using the href value targeting a formatted hash destination; see the demos source code for more examples.
 Keyboard navigation is based on arrow keys with the Shift key as a modifier to jump over fragments or sections, see the command list:
 
 - **Down or Up Arrows**: navigate to the previous or the next page. This is the main navigation input; the entire content is navigable using this keys only. If there are fragments in the page every input shows or hides a fragment.
@@ -37,27 +37,27 @@ Keyboard navigation is based on arrow keys with the Shift key as a modifier to j
 - **End**: navigates to the last page of the presentation.
 - **ESC**: toggles the overview mode.
 
-**Fragments Support**.  
-Navigate step by step in a page or jump directly to the next or previous page.  
+**Fragments Support**.
+Navigate step by step in a page or jump directly to the next or previous page.
 You can hide or show every single fragment with special behaviour managed and styled by CSS classes and you can even nest fragments.
 
-**Overview Mode**.  
+**Overview Mode**.
 Overview mode allows you to look at the entire site/presentation structure in a single view or from a distant point of view (alternate version).
 When in overview mode you can navigate to a page by click on it or using the arrow keys and **then press Return to go**.
 
-**History Management**.  
+**History Management**.
 Flowtime.js is built on top of the **HTML History APIs** so you can navigate using the browser's back and forward buttons and deep-link a page for sharing.
 Flowtime.js is a client side only framework so if you want to optimize SEO you have to add a server side logic to serve only the single page content to search engines.
 If the History APIs were not available the framework degrades well using the hashchange event.
 
-**Transitions**.  
+**Transitions**.
 Flowtime.js animate the page transition using **native CSS3 transitions**. Where transitions were not available (IE9) the page change is immediate but works.
 
 **Parallax Support**
 Integrated native parallax support based on CSS3 transformations and configurable by data- attributes.
 
 **Browser Support**
-Flowtime.js is tested and works on **every modern desktop browser and IE9 and above**.  
+Flowtime.js is tested and works on **every modern desktop browser and IE9 and above**.
 Where the basic support is not available the framework degrades to a native scrolling with anchor links but the full page fluid layouts remains intact.
 
 ## How to build the markup
@@ -118,7 +118,7 @@ To better understand the use of data attributes here it is an example:
       </div>
       <div class="ft-section"data-id="section-3">
         <div class="ft-page" data-title="Page Title" data-id="page-1">
-            When navigating to this page the title will be "site name | Page Title"            
+            When navigating to this page the title will be "site name | Page Title"
             and the URL will be "http://site_URL/#/section-3/page-1/"
         </div>
       </div>
@@ -140,8 +140,8 @@ If you want to delay the showing and navigate single parts in a page just put th
     </div>
 ```
 
-You can also add some classes to trigger special behaviours for fragments.  
-The `step` class partially fades out a fragment when the next one is selected; for example: `<p class="ft-fragment step">`  
+You can also add some classes to trigger special behaviours for fragments.
+The `step` class partially fades out a fragment when the next one is selected; for example: `<p class="ft-fragment step">`
 The `shy` class completely hides a fragment when it lose the focus; for example: `<p class="ft-fragment shy">`
 
 ### Parallax
@@ -171,7 +171,7 @@ Flowtime.start();
 ```
 
 Starts the application logic. This method is optional but is required if you change some configuration parameters.
-If you does'n call the `start()` method Flowtime.js starts itself but some configuration parameters will be applied only after the first navigation action.  
+If you does'n call the `start()` method Flowtime.js starts itself but some configuration parameters will be applied only after the first navigation action.
 You can pass as optional parameters the same parameters that are accepted by the `gotoPage` method (see below) to let the presentation navigating to a specific page at start.
 
 ```javascript
@@ -242,7 +242,7 @@ In Webkit browsers the default overview mode can cause rendering problems when t
 Flowtime.defaultParallaxValues(Number x, [Number y]);
 ```
 
-Sets the default values for parallax elements so you doesn't have to set the values for every single element.  
+Sets the default values for parallax elements so you doesn't have to set the values for every single element.
 If you only pass the `x` value the `y` value will be the same.
 
 ```javascript
@@ -273,14 +273,14 @@ Default `false`. If true you can loop the navigation both for the sections and f
 Flowtime.prevSection([Boolean top]);` and `Flowtime.nextSection([Boolean top]);
 ```
 
-Navigate to the previous or the next section.  
+Navigate to the previous or the next section.
 If the optional `top` parameter is `true` the section starts at the first page; if the `top` parameter is `false` the section starts at the page with the same index than the previous section or, if the index does not exist, at the last page available.
 
 ```javascript
 Flowtime.prev([Boolean jump]);` and `Flowtime.next([Boolean jump]);
 ```
 
-Navigate to the previous or the next page or, if there are fragments, to the previous or next fragment.  
+Navigate to the previous or the next page or, if there are fragments, to the previous or next fragment.
 If the optional `jump` parameter is `true` all the fragments will be jumped.
 
 ```javascript
@@ -384,9 +384,9 @@ Gets the index starting at `0` of the current page.
 
 ### Events
 
-When navigating Flowtime.js dispatches a `flowtimenavigation` event useful for create custom behaviours and callbacks.  
-You can register the event using `Flowtime.addEventListener("flowtimenavigation", callback, useCapture);` API. 
-The callback receive an `event` parameter with some custom properties useful to manage the navigation status.  
+When navigating Flowtime.js dispatches a `flowtimenavigation` event useful for create custom behaviours and callbacks.
+You can register the event using `Flowtime.addEventListener("flowtimenavigation", callback, useCapture);` API.
+The callback receive an `event` parameter with some custom properties useful to manage the navigation status.
 Here it is the list of the properties, supposing the event parameter is named `e`:
 
 ```javascript
@@ -493,7 +493,7 @@ e.isLoopable
 
 ## Customizing and Styling Default Components and Behaviours
 
-As said before Flowtime.js comes with some default components like the two overview variants and a progress indicator.  
+As said before Flowtime.js comes with some default components like the two overview variants and a progress indicator.
 You can change the way this parts appears editing or overwriting some CSS properties.
 
 ### Calculating the Completion Percentage for Custom Visualization
@@ -508,7 +508,7 @@ In the `flowtimenavigation` event handler calculate the progress in % using this
     }
 ```
 
-The first page of the first section **ever returns 0 as progress value**.  
+The first page of the first section **ever returns 0 as progress value**.
 `progress` and `total` values does not consider fragments.
 
 ### Customize the Fragments Animation
@@ -541,7 +541,7 @@ To customize the way the thumbnails in overview mode look when idle, hovered and
 
 ```css
   /* default progress page thumb */
-  
+
   .ft-page-thumb {
        -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -565,7 +565,7 @@ To customize the way the thumbnails in overview mode look when idle, hovered and
 
   .ft-page-thumb.actual {
     background-color: rgba(255,255,255,0.5);
-    border: 1px solid #ffffff;  
+    border: 1px solid #ffffff;
   }
 
   /* overview mode page highlighting */
