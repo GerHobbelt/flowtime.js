@@ -1850,24 +1850,43 @@ var Flowtime = (function ()
 	 */
 	Brav1Toolbox.addListener(window, "keydown", onKeyDown);
 	Brav1Toolbox.addListener(window, "keyup", onKeyUp);
-	
+
+	// Return TRUE when we will process this particular key.
+	function doWeHandleTheKey(e)	
+	{
+        var d = e.srcElement || e.target;
+		var tag = d.tagName.toUpperCase();
+		var weHandleTheKey = false;
+		switch (tag) 
+		{
+        case 'TEXTAREA':
+        case 'SELECT':
+            weHandleTheKey = d.readOnly || d.disabled;
+            break;
+        case 'INPUT':
+            weHandleTheKey = d.readOnly || d.disabled; // || (d.attributes["type"] && $.inArray(d.attributes["type"].value.toLowerCase(), ["radio", "checkbox", "submit", "button"]) >= 0);
+            break;
+        case 'DIV':
+            weHandleTheKey = d.readOnly || d.disabled || !(d.attributes["contentEditable"] && d.attributes["contentEditable"].value);
+            break;
+        default:
+            weHandleTheKey = true;
+            break;
+	    }
+	    return weHandleTheKey && [13, 27, 33, 34, 35, 36, 37, 38, 39, 40].indexOf(e.keyCode) >= 0;
+	}
+
 	function onKeyDown(e)
 	{
-		var tag = e.target.tagName;
-		if (tag != "INPUT" && tag != "TEXTAREA" && tag != "SELECT")
+		if (!doWeHandleTheKey(e)) 
 		{
-			if (e.keyCode >= 37 && e.keyCode <= 40)
-			{
-				e.preventDefault();
-			}
+			e.preventDefault();
 		}
 	}
 	
 	function onKeyUp(e)
 	{
-		var tag = e.target.tagName;
-		var elem;
-		if (tag != "INPUT" && tag != "TEXTAREA" && tag != "SELECT")
+		if (doWeHandleTheKey(e))
 		{
 			e.preventDefault();
 			switch (e.keyCode)
