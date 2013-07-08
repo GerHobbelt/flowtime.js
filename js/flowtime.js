@@ -1878,7 +1878,7 @@ var Flowtime = (function ()
 
     function onKeyDown(e)
     {
-        if (!doWeHandleTheKey(e))
+        if (doWeHandleTheKey(e))
         {
             e.preventDefault();
         }
