@@ -52,7 +52,7 @@ var Brav1Toolbox = (function()
      */
     function _getPrefixed(prop)
     {
-        var o = styleObject || _getStyleObject();
+        var o = styleObject || (styleObject = _getStyleObject());
         for (var i = 0; i < cssPrefixes.length; i++)
         {
             var pre = cssPrefixes[i].replace(/-/g, "");
