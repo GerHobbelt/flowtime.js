@@ -73,6 +73,8 @@ var Flowtime = (function ()
 
     var parallaxEnabled = document.querySelector(".parallax") != null; // performance tweak, if there is no elements with .parallax class disable the dom manipulation to boost performances
 
+    var _transformStyleName = null;
+
 
     /**
      * test the base support
@@ -101,6 +103,15 @@ var Flowtime = (function ()
     {
         Brav1Toolbox.addClass(body, "ft-absolute-nav");
     }
+
+    function _getCSStransformStyleName()
+    {
+    	if (!_transformStyleName) {
+    		_transformStyleName = Brav1Toolbox.getPrefixed("transform");
+    	}
+    	return _transformStyleName;
+    }
+
 
 /*
     ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## ##     ##    ###    ######## ########  #### ##     ##
@@ -1147,7 +1158,7 @@ var Flowtime = (function ()
 
     function getInitOffset()
     {
-        var off = ftContainer.style[Brav1Toolbox.getPrefixed("transform")];
+        var off = ftContainer.style[_getCSStransformStyleName()];
         // X
         var indexX = off.indexOf("translateX(") + 11;
         var offX = off.substring(indexX, off.indexOf(")", indexX));
@@ -1573,15 +1584,15 @@ var Flowtime = (function ()
             y = pageIndex.page;
         }
         //
-        if (Brav1Toolbox.testCSS("transform"))
+        if (_getCSStransformStyleName())
         {
             if (_slideInPx)
             {
-                ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x + "px) translateY(" + -y + "px)";
+                ftContainer.style[_getCSStransformStyleName()] = "translateX(" + -x + "px) translateY(" + -y + "px)";
             }
             else
             {
-                ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x * 100 + "%) translateY(" + -y * 100 + "%)";
+                ftContainer.style[_getCSStransformStyleName()] = "translateX(" + -x * 100 + "%) translateY(" + -y * 100 + "%)";
             }
         }
         else
@@ -1643,11 +1654,11 @@ var Flowtime = (function ()
                                 // animation
                                 if (_parallaxInPx)
                                 {
-                                    pxElement.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + pX + "px) translateY(" + pY + "px)";
+                                    pxElement.style[_getCSStransformStyleName()] = "translateX(" + pX + "px) translateY(" + pY + "px)";
                                 }
                                 else
                                 {
-                                    pxElement.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + pX + "%) translateY(" + pY + "%)";
+                                    pxElement.style[_getCSStransformStyleName()] = "translateX(" + pX + "%) translateY(" + pY + "%)";
                                 }
                             }
                         }
@@ -1818,7 +1829,7 @@ var Flowtime = (function ()
             var scale = Math.min(scaleX, scaleY) * 0.9;
             var offsetX = (100 - NavigationMatrix.getSectionsLength() * scale) / 2;
             var offsetY = (100 - NavigationMatrix.getPagesLength() * scale) / 2;
-            ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
+            ftContainer.style[_getCSStransformStyleName()] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
         }
     }
 
@@ -1831,7 +1842,7 @@ var Flowtime = (function ()
             var pIndex = NavigationMatrix.getPageIndex();
             var offsetX = 50 - (scale * pIndex.section) - (scale / 2);
             var offsetY = 50 - (scale * pIndex.page) - (scale / 2);
-            ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
+            ftContainer.style[_getCSStransformStyleName()] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
         }
     }
 
