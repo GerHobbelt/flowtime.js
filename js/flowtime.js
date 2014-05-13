@@ -56,7 +56,7 @@ var Flowtime = (function ()
 	var isOverview = false;											// Boolean status for the overview 
 	var siteName = document.title;									// cached base string for the site title
 	var overviewCachedDest;											// caches the destination before performing an overview zoom out for navigation back purposes
-	var overviewFixedScaleFactor = 22;								// fixed scale factor for overview variant
+	var overviewFixedScaleFactor = 450 / 1920;						// fixed scale factor for overview variant
 	var defaultProgress = null;										// default progress bar reference
 
 	var _fragmentsOnSide = false;									// enable or disable fragments navigation when navigating from sections
@@ -1827,7 +1827,11 @@ var Flowtime = (function ()
 		// ftContainer scale alternative version
 		if (out)
 		{
-			var scale = overviewFixedScaleFactor // Math.min(scaleX, scaleY) * 0.9;
+			var scaleX = 100 / NavigationMatrix.getSectionsLength();
+			var scaleY = 100 / NavigationMatrix.getPagesLength();
+			var scale = Math.min(scaleX, scaleY) * 0.9;
+			// Chrome has serious trouble rendering the overview when any page is zoomed to less than ~442x183 pixels (established heuristically):
+			var scale = Math.max(overviewFixedScaleFactor * 100, scale);
 			var pIndex = NavigationMatrix.getPageIndex();
 			var offsetX = 50 - (scale * pIndex.section) - (scale / 2);
 			var offsetY = 50 - (scale * pIndex.page) - (scale / 2);
