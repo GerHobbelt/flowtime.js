@@ -8,10 +8,13 @@
 # intermediates
 .DS_Store
 .svn
+.tmp/
+node_modules/
+_wip/
 demo
 demo-candy
 demo-skyline
+js/brav1toolbox.min.js
 *.sublime-project
 *.sublime-workspace
 *.dev.*
-_wip 

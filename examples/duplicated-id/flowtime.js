@@ -91,9 +91,6 @@ var Flowtime = (function ()
   var _crossDirection = Brav1Toolbox.hasClass(ftContainer, CROSS_DIRECTION_CLASS);  // flag to set the cross direction layout and logic
   var _navigationCallback = undefined;
 
-  var _transformStyleName = null;
-
-
   // section navigation modifiers
 
   var _sectionsSlideToTop = false;                                      // if true navigation with right or left arrow go to the first page of the section
@@ -128,14 +125,6 @@ var Flowtime = (function ()
   if (browserSupport) {
     Brav1Toolbox.addClass(ftParent, "ft-absolute-nav");
   }
-
-  function _getCSStransformStyleName() {
-  	if (!_transformStyleName) {
-      _transformStyleName = Brav1Toolbox.getPrefixed("transform");
-    }
-    return _transformStyleName;
-  }
-
 
 /*
   ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## ##     ##    ###    ######## ########  #### ##     ##
@@ -1201,7 +1190,7 @@ var Flowtime = (function ()
     }
 
     function getInitOffset() {
-      var off = ftContainer.style[_getCSStransformStyleName()];
+      var off = ftContainer.style[Brav1Toolbox.getPrefixed("transform")];
       // X
       var indexX = off.indexOf("translateX(") + 11;
       var offX = off.substring(indexX, off.indexOf(")", indexX));
@@ -1348,20 +1337,28 @@ var Flowtime = (function ()
    * @param h String  the hash string to evaluate
    */
   function getElementByHash(h) {
+    console.log("getElementByHash", h);
     if (h.length > 0) {
       var aHash = h.replace("#/", "").split("/");
       if (aHash.length > 0) {
-        var p = document.querySelector(SECTION_SELECTOR + "[data-id=__" + aHash[0] + "]") || document.querySelector(SECTION_SELECTOR + "[data-prog=__" + aHash[0] + "]");
-        if (p != null) {
-          var sp = null;
-          if (aHash.length > 1) {
-            sp = p.querySelector(PAGE_SELECTOR + "[data-id=__" + aHash[1] + "]") || p.querySelector(PAGE_SELECTOR + "[data-prog=__" + aHash[1] + "]");
+        var ps = document.querySelectorAll(SECTION_SELECTOR + "[data-id=__" + aHash[0] + "]") || document.querySelectorAll(SECTION_SELECTOR + "[data-prog=__" + aHash[0] + "]");
+        if (ps != null) {
+          for (var i = 0; i < ps.length; i++) {
+            var p = ps[i];
+            var sp = null;
+            if (aHash.length > 1) {
+              sp = p.querySelector(PAGE_SELECTOR + "[data-id=__" + aHash[1] + "]") || p.querySelector(PAGE_SELECTOR + "[data-prog=__" + aHash[1] + "]");
+              console.log("##", i, sp);
+            }
+            if (sp !== null) {
+              break;
+            }
           }
           if (sp == null) {
             sp = p.querySelector(PAGE_SELECTOR);
           }
-          return sp;
         }
+        return sp;
       }
     }
     return;
@@ -1558,7 +1555,7 @@ var Flowtime = (function ()
       }
     }
     if (_scrollTheSection === true) {
-      if (_getCSStransformStyleName()) {
+      if (Brav1Toolbox.testCSS("transform")) {
         var currentSection = NavigationMatrix.getCurrentSection();
         var outside = ftContainer;
         var inside = currentSection;
@@ -1569,22 +1566,22 @@ var Flowtime = (function ()
         }
         //
         if (_slideInPx) {
-          outside.style[_getCSStransformStyleName()] = "translateX(" + -x + "px)";
+          outside.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x + "px)";
         } else {
-          outside.style[_getCSStransformStyleName()] = "translateX(" + -x * 100 + "%)";
+          outside.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x * 100 + "%)";
         }
         if (_slideInPx) {
-          inside.style[_getCSStransformStyleName()] = "translateY(" + -y + "px)";
+          inside.style[Brav1Toolbox.getPrefixed("transform")] = "translateY(" + -y + "px)";
         } else {
-          inside.style[_getCSStransformStyleName()] = "translateY(" + -y * 100 + "%)";
+          inside.style[Brav1Toolbox.getPrefixed("transform")] = "translateY(" + -y * 100 + "%)";
         }
       }
     } else {
       if (Brav1Toolbox.testCSS("transform")) {
         if (_slideInPx) {
-          ftContainer.style[_getCSStransformStyleName()] = "translateX(" + -x + "px) translateY(" + -y + "px)";
+          ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x + "px) translateY(" + -y + "px)";
         } else {
-          ftContainer.style[_getCSStransformStyleName()] = "translateX(" + -x * 100 + "%) translateY(" + -y * 100 + "%)";
+          ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + -x * 100 + "%) translateY(" + -y * 100 + "%)";
         }
       } else {
         if (_slideInPx) {
@@ -1632,9 +1629,9 @@ var Flowtime = (function ()
                   unit = "px";
                 }
                 if (_crossDirection === true) {
-                  pxElement.style[_getCSStransformStyleName()] = "translateX(" + pX + "px) translateY(" + pY + "px)";
+                  pxElement.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + pY + unit + ") translateY(" + pX + unit + ")";
                 } else {
-                  pxElement.style[_getCSStransformStyleName()] = "translateX(" + pX + "%) translateY(" + pY + "%)";
+                  pxElement.style[Brav1Toolbox.getPrefixed("transform")] = "translateX(" + pX + unit + ") translateY(" + pY + unit + ")";
                 }
               }
             }
@@ -1796,7 +1793,7 @@ var Flowtime = (function ()
       var offsetX = (100 - NavigationMatrix.getSectionsLength() * scale) / 2;
       var offsetY = (100 - NavigationMatrix.getPagesLength() * scale) / 2;
       //
-      ftContainer.style[_getCSStransformStyleName()] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
+      ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
     }
   }
 
@@ -1814,7 +1811,7 @@ var Flowtime = (function ()
         var offsetY = 50 - (scale * pIndex.page) - (scale / 2);
       }
       //
-            ftContainer.style[_getCSStransformStyleName()] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
+      ftContainer.style[Brav1Toolbox.getPrefixed("transform")] = "translate(" + offsetX + "%, " + offsetY + "%) scale(" + scale/100 + ", " + scale/100 + ")";
     }
   }
 
@@ -1834,41 +1831,22 @@ var Flowtime = (function ()
   Brav1Toolbox.addListener(window, "keydown", onKeyDown);
   Brav1Toolbox.addListener(window, "keyup", onKeyUp);
 
-    // Return TRUE when we will process this particular key.
-    function doWeHandleTheKey(e) {
-        if (!_isKeyboardActive)
-            return false; 
-        var d = e.srcElement || e.target;
-        var tag = d.tagName.toUpperCase();
-        var weHandleTheKey = false;
-        switch (tag) {
-        case 'TEXTAREA':
-        case 'SELECT':
-            weHandleTheKey = d.readOnly || d.disabled;
-            break;
-        case 'INPUT':
-            weHandleTheKey = d.readOnly || d.disabled; // || (d.attributes["type"] && $.inArray(d.attributes["type"].value.toLowerCase(), ["radio", "checkbox", "submit", "button"]) >= 0);
-            break;
-        case 'DIV':
-            weHandleTheKey = d.readOnly || d.disabled || !(d.attributes["contentEditable"] && d.attributes["contentEditable"].value);
-            break;
-        default:
-            weHandleTheKey = true;
-            break;
-        }
-        return weHandleTheKey && [13, 27, 33, 34, 35, 36, 37, 38, 39, 40].indexOf(e.keyCode) >= 0;
+  function onKeyDown(e) {
+    var tag = e.target.tagName;
+    if (tag != "INPUT" && tag != "TEXTAREA" && tag != "SELECT") {
+      if (e.keyCode >= 37 && e.keyCode <= 40) {
+        e.preventDefault();
+      }
     }
-
-    function onKeyDown(e) {
-        if (doWeHandleTheKey(e)) {
-            e.preventDefault();
-        }
-    }
+  }
 
   function onKeyUp(e) {
-    if (doWeHandleTheKey(e)) {
-      e.preventDefault();
-      switch (e.keyCode) {
+    if (_isKeyboardActive) {
+      var tag = e.target.tagName;
+      var elem;
+      if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+        e.preventDefault();
+        switch (e.keyCode) {
           case 27 : // esc
             _toggleOverview(true);
             break;
@@ -1927,6 +1905,7 @@ var Flowtime = (function ()
             break;
           default :
             break;
+        }
       }
     }
   }
